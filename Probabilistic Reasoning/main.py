@@ -10,20 +10,10 @@ def parse_documents(dir, learning_set, stop_words):
     files_to_read = int(len(files)*learning_set)
     words = []
     for file in files:
-        if files_to_read == 0: break
-
+        if files_to_read == 0:
+            break
         files_to_read -= 1
-        f = open(file, 'r')
-        start_parse = False
-
-        for line in f:
-            if not start_parse and "Lines:" in line: start_parse = True
-            elif start_parse:
-                l = line.split()
-                for w in l:
-                    word = filter(lambda x: x.isalpha(), w).lower()
-                    if word not in stop_words and len(word)>0:
-                        words.append(word)
+        words.append(parse_document(file))
     return words
 
 
@@ -35,8 +25,8 @@ def parse_document(path):
         if not start_parse and "Lines:" in line:
             start_parse = True
         elif start_parse:
-            l = line.split()
-            for w in l:
+            words_in_line = line.split()
+            for w in words_in_line:
                 word = filter(lambda x: x.isalpha(), w).lower()
                 if word not in stop_words and len(word) > 0:
                     words.append(word)
@@ -75,17 +65,17 @@ def assert_category(document, vocabulary, p_words):
     words_in_document = parse_document(document)
     max_group = 0
     max_p = -sys.float_info.max
-    for i in range(len(p_words)):
-        p = math.log(calc_category_prob(i))
+    for category in range(len(p_words)):
+        p = math.log(calc_category_prob(category))
         for word in words_in_document:
             if word in vocabulary:
                 word_index = vocabulary.index(word)
-                p += math.log(p_words[i][word_index][1])
+                p += math.log(p_words[category][word_index][1])
         if p>max_p:
             max_p = p
-            max_group = i
+            max_group = category
             print "***new max***"
-        print "category:", i, "p:", p, "max_p:", max_p
+        print "category:", category, "p:", p, "max_p:", max_p
 
     return max_group
 
