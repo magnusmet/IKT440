@@ -75,30 +75,34 @@ def assert_category(document, vocabulary, p_words):
     words_in_document = parse_document(document)
     max_group = 0
     max_p = -sys.float_info.max
-    for i in range(len(vocabulary)):
+    for i in range(len(p_words)):
         p = math.log(calc_category_prob(i))
         for word in words_in_document:
-            if word in vocabulary[i]:
-                word_index = vocabulary[i].index(word)
+            if word in vocabulary:
+                word_index = vocabulary.index(word)
                 p += math.log(p_words[i][word_index][1])
-        print "max_p", max_p
-        print "i: ", i, "p: ", p, "base_p:", calc_category_prob(i)
         if p>max_p:
             max_p = p
             max_group = i
-            print "***new max*** --->", i
+            print "***new max***"
+        print "category:", i, "p:", p, "max_p:", max_p
 
     return max_group
 
+
+#Fraction of documents used for learning
 learning_set = 2.0/3.0
 
+#Listing words to avoid when caluclating probablity
 stop_words = []
-
 for line in open("stop_words.txt", 'r'):
     stop_words += line.split()
 
+#Acquiring paths for the documents in each category
 categories = glob.glob("20_newsgroups\\*")
 
+
+#Get words from learning sets and establishing vocabulary
 category_words = []
 vocabulary = []
 for i in range(len(categories)):
@@ -107,7 +111,7 @@ for i in range(len(categories)):
     vocabulary += list(Set(words))
     print categories[i], "parsed"
 
-
+#Calculate probability of a word given category
 p_words = []
 for category in category_words:
     print "Learning new category"
@@ -116,16 +120,16 @@ for category in category_words:
     print categories[len(p_words)-1], "learned"
 
 
+#Asserting category of documents outsied of the learning set
 correctly_asserted = []
 incorrectly_asserted = []
-
 for category in categories:
     print "Testing documents from", category
-    files = glob.glob(categories[1] + "\\*")
+    files = glob.glob(category + "\\*")
     start_file = int(len(files) * learning_set)
     for i in range(start_file, len(files)):
         probable_category = assert_category(files[i], vocabulary, p_words)
-        if categories[probable_category] == categories[1]:
+        if categories[probable_category] == category:
             correctly_asserted.append(files[i])
             print "correct", files[i]
         else:
