@@ -1,7 +1,8 @@
 import glob
-import math
 from sys import float_info
 from category import Category
+import plotly as py
+from plotly import graph_objs as go
 
 
 def parse_documents(dir, learning_set, stop_words):
@@ -101,22 +102,33 @@ print len(incorrectly_asserted), "wrong"
 accuracy = float(len(correctly_asserted))/(len(correctly_asserted)+len(incorrectly_asserted))
 print accuracy*100, "percent accurate"
 
+# Sorting results
 actual_category_vs_guessed_category = []
 for path in category_paths:
     category_guessed = []
-    correct = 0.0
     for guess in correctly_asserted:
         if path in guess[1]:
-            correct += 1.0
             category_guessed.append(guess[0])
-    wrong = 0.0
     for guess in incorrectly_asserted:
         if path in guess[1]:
-            wrong += 1.0
             category_guessed.append(guess[0])
-    actual_category_vs_guessed_category.append([path, category_guessed, (correct/(correct+wrong))])
+    actual_category_vs_guessed_category.append([path, category_guessed])
 
+# Creating pie charts using plotly
+data = []
 for category in actual_category_vs_guessed_category:
-    # for guess in set(category[1]):
-    #     print category[0], ":", category[1].count(guess), guess
-    print category[0], category[2]*100, "percent accurate"
+    d1 = []
+    d2 = []
+    for guess in set(category[1]):
+        d1.append(guess)
+        d2.append(category[1].count(guess))
+    data.append([category[0], d1, d2])
+
+for category in data:
+    fig = {
+        'data': [{'labels': category[1],
+                  'values': category[2],
+                  'type': 'pie'}],
+        'layout': {'title': category[0]}
+    }
+    py.offline.plot(fig, filename=category[0]+'.html')
