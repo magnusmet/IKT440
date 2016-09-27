@@ -1,8 +1,7 @@
 import glob
-from sets import Set
 import math
-import sys
-from xml.etree.ElementInclude import include
+from sys import float_info
+from category import Category
 
 
 def parse_documents(dir, learning_set, stop_words):
@@ -13,14 +12,14 @@ def parse_documents(dir, learning_set, stop_words):
         if files_to_read == 0:
             break
         files_to_read -= 1
-        words.append(parse_document(file))
+        words += parse_document(file, stop_words)
     return words
 
 
-def parse_document(path):
+def parse_document(path, stop_words):
     file = open(path, 'r')
     start_parse = False
-
+    words = []
     for line in file:
         if not start_parse and "Lines:" in line:
             start_parse = True
@@ -44,44 +43,8 @@ def calc_category_prob(category):
             category_files += len(files)
     return category_files/total_files
 
-
-def calc_word_prob(words, vocabulary):
-    p_words = []
-    relevant_words = list(Set(words))
-    def_val = 1.0/(len(words)+len(vocabulary))
-    for word in vocabulary:
-        if word in relevant_words:
-            word_count = words.count(word)
-            p = (word_count+1.0)/(len(words)+len(vocabulary))
-            p_words.append([word, p])
-        else:
-            p_words.append([word, def_val])
-
-    return p_words
-
-
-def assert_category(document, vocabulary, p_words):
-    print "Parsing document..."
-    words_in_document = parse_document(document)
-    max_group = 0
-    max_p = -sys.float_info.max
-    for category in range(len(p_words)):
-        p = math.log(calc_category_prob(category))
-        for word in words_in_document:
-            if word in vocabulary:
-                word_index = vocabulary.index(word)
-                p += math.log(p_words[category][word_index][1])
-        if p>max_p:
-            max_p = p
-            max_group = category
-            print "***new max***"
-        print "category:", category, "p:", p, "max_p:", max_p
-
-    return max_group
-
-
 #Fraction of documents used for learning
-learning_set = 2.0/3.0
+learning_fraction = 0.8#2.0 / 3.0
 
 #Listing words to avoid when caluclating probablity
 stop_words = []
@@ -89,45 +52,50 @@ for line in open("stop_words.txt", 'r'):
     stop_words += line.split()
 
 #Acquiring paths for the documents in each category
-categories = glob.glob("20_newsgroups\\*")
+category_paths = glob.glob("20_newsgroups\\*")
 
 
 #Get words from learning sets and establishing vocabulary
-category_words = []
-vocabulary = []
-for i in range(len(categories)):
-    words = parse_documents(categories[i], learning_set, stop_words)
-    category_words.append(words)
-    vocabulary += list(Set(words))
-    print categories[i], "parsed"
+categories = []
+total_words = []
+category_probs = []
+for i in range(len(category_paths)):
+    words = parse_documents(category_paths[i], learning_fraction, stop_words)
+    total_words += set(words)
+    category_probs.append(calc_category_prob(i))
+    print category_paths[i], "parsed"
 
-#Calculate probability of a word given category
-p_words = []
-for category in category_words:
-    print "Learning new category"
-    words = calc_word_prob(category, vocabulary)
-    p_words.append(words)
-    print categories[len(p_words)-1], "learned"
+vocabulary = dict(zip(set(total_words), [0]*len(set(total_words))))
 
+test_documents = []
+for i in range(len(category_paths)):
+    print "Learning", category_paths[i]
+    category = Category(category_paths[i], vocabulary, stop_words, learning_fraction, category_probs[i])
+    categories.append(category)
+    test_documents += category.get_test_set()
 
-#Asserting category of documents outsied of the learning set
+print "Start testing"
 correctly_asserted = []
 incorrectly_asserted = []
-for category in categories:
-    print "Testing documents from", category
-    files = glob.glob(category + "\\*")
-    start_file = int(len(files) * learning_set)
-    for i in range(start_file, len(files)):
-        probable_category = assert_category(files[i], vocabulary, p_words)
-        if categories[probable_category] == category:
-            correctly_asserted.append(files[i])
-            print "correct", files[i]
-        else:
-            incorrectly_asserted.append(files[i])
-            print "wrong", files[i], "guessed", categories[probable_category]
+for document in test_documents:
+    words_in_document = parse_document(document, stop_words)
+    max_group = ''
+    max_p = -float_info.max
+    for category in categories:
+        p = category.check_if_docment_fits(words_in_document)
+        if p>max_p:
+            max_p = p
+            max_group = category.get_path()
+    print max_p
+    if max_group in document:
+        correctly_asserted.append(document)
+        print "Correct! Guessed", max_group, "for", document
+    else:
+        incorrectly_asserted.append(document)
+        print "Wrong! Guessed", max_group, "for", document
 
 print len(correctly_asserted), "right"
 print len(incorrectly_asserted), "wrong"
 
-accuracy = len(correctly_asserted)/(len(correctly_asserted)+len(incorrectly_asserted))
-print accuracy, "accuracy"
+accuracy = float(len(correctly_asserted))/(len(correctly_asserted)+len(incorrectly_asserted))
+print accuracy*100, "percent accurate"
