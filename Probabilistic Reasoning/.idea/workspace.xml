@@ -2,6 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05d5e289-22b7-4840-a20d-6a338eba16e0" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/alt.atheism.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/comp.graphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/comp.os.ms-windows.misc.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/comp.sys.ibm.pc.hardware.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/comp.sys.mac.hardware.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/comp.windows.x.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/misc.forsale.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/rec.autos.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/rec.motorcycles.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/rec.sport.baseball.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/rec.sport.hockey.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/sci.crypt.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/sci.electronics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/sci.med.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/sci.space.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/soc.religion.christian.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/talk.politics.guns.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/talk.politics.mideast.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/talk.politics.misc.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/20_newsgroups/talk.religion.misc.html" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <ignored path="Probabilistic Reasoning.iws" />
@@ -25,8 +46,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="129" column="40" selection-start-line="129" selection-start-column="40" selection-end-line="129" selection-end-column="40" />
+            <state relative-caret-position="194">
+              <caret line="137" column="50" selection-start-line="137" selection-start-column="50" selection-end-line="137" selection-end-column="50" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#183#443#0" expanded="false" />
@@ -40,7 +61,7 @@
       <file leaf-file-name="category.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/category.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1210">
+            <state relative-caret-position="1166">
               <caret line="55" column="73" selection-start-line="55" selection-start-column="73" selection-end-line="55" selection-end-column="73" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -101,8 +122,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -326,14 +347,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13854167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31613612" sideWeight="0.20885417" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31613612" sideWeight="0.21197917" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31613612" sideWeight="0.79114586" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31613612" sideWeight="0.78802085" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -365,6 +386,29 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#183#443#0" expanded="false" />
+            <element signature="e#488#935#0" expanded="false" />
+            <element signature="e#976#1278#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/category.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1166">
+          <caret line="55" column="73" selection-start-line="55" selection-start-column="73" selection-end-line="55" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -511,7 +555,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/category.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1210">
+        <state relative-caret-position="1166">
           <caret line="55" column="73" selection-start-line="55" selection-start-column="73" selection-end-line="55" selection-end-column="73" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -521,8 +565,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="129" column="40" selection-start-line="129" selection-start-column="40" selection-end-line="129" selection-end-column="40" />
+        <state relative-caret-position="194">
+          <caret line="137" column="50" selection-start-line="137" selection-start-column="50" selection-end-line="137" selection-end-column="50" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <element signature="e#183#443#0" expanded="false" />
