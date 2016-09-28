@@ -115,6 +115,7 @@ for path in category_paths:
     actual_category_vs_guessed_category.append([path, category_guessed])
 
 # Creating pie charts using plotly
+# data[0] - category, data[1] - guessed, data[2] - amount
 data = []
 for category in actual_category_vs_guessed_category:
     d1 = []
@@ -124,11 +125,41 @@ for category in actual_category_vs_guessed_category:
         d2.append(category[1].count(guess))
     data.append([category[0], d1, d2])
 
+# Plotting pie chart
+# for category in data:
+#     fig = {
+#         'data': [{'labels': category[1],
+#                   'values': category[2],
+#                   'type': 'pie'}],
+#         'layout': {'title': category[0]}
+#     }
+#     py.offline.plot(fig, filename='graphs\\'+category[0]+'.html')
+
+# Reorganizing data for plotting stacked bar chart
+data2 = []
 for category in data:
-    fig = {
-        'data': [{'labels': category[1],
-                  'values': category[2],
-                  'type': 'pie'}],
-        'layout': {'title': category[0]}
-    }
-    py.offline.plot(fig, filename=category[0]+'.html')
+    d1 = []
+    d2 = []
+    for cat in data:
+        if category[0] in cat[1]:
+            index = cat[1].index(category[0])
+            d1.append(cat[0])
+            d2.append(cat[2][index])
+        else:
+            d1.append(cat[0])
+            d2.append(0)
+    data2.append([category[0], d1, d2])
+
+traces = []
+for category in data2:
+    trace = go.Bar(
+        x=category[1],
+        y=category[2],
+        name=category[0]
+    )
+    traces.append(trace)
+
+layout = go.Layout(barmode='stack')
+
+fig = go.Figure(data=traces, layout=layout)
+py.offline.plot(fig, filename='graphs\\Probabilistic Reasoning.html')
