@@ -17,6 +17,7 @@ import random
 
 # Third-party libraries
 import numpy as np
+from scipy.special import expit
 
 class Network(object):
 
@@ -57,16 +58,23 @@ class Network(object):
         n = len(training_data)
         for j in xrange(epochs):
             random.shuffle(training_data)
+            random.shuffle(test_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in xrange(0, n, mini_batch_size)]
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
-            if test_data:
-                print "Epoch {0}: {1} / {2}".format(
-                    j, self.evaluate(test_data), n_test)
-            else:
-                print "Epoch {0} complete".format(j)
+            # if test_data and j % 10 == 0:
+            #     print "Epoch {0}: {1} / {2}".format(j, self.evaluate(test_data), n_test)
+            # else:
+                # print "Epoch {0} complete".format(j)
+        if test_data:
+            result = self.evaluate(test_data)
+            # print "{0} / {1}".format(result, n_test)
+            return result/float(n_test)
+        else:
+            print "No test set"#"Epoch {0} complete".format(j)
+            return 0
 
     def update_mini_batch(self, mini_batch, eta):
         """Update the network's weights and biases by applying
@@ -136,7 +144,7 @@ class Network(object):
 #### Miscellaneous functions
 def sigmoid(z):
     """The sigmoid function."""
-    return 1.0/(1.0+np.exp(-z))
+    return 1.0/(1.0+np.exp(-z))#expit(z)
 
 def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
