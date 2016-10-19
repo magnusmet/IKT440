@@ -40,7 +40,7 @@ def split(data, attribute, remove=False):
 def entropy(oneclass):
     pos = len([i for i in oneclass if i[0] == "0"])
     neg = len([i for i in oneclass if i[0] == "1"])
-    total = pos + neg
+    total = float(pos + neg)
     if (min((pos, neg)) == 0):
         return 0
     entropy = - (pos / total) * math.log(pos / total, 2) - (neg / total) * math.log(neg / total, 2)
@@ -105,7 +105,7 @@ def buildTree(oneclass, spaces="    "):
 buildTree(trainingdata)
 print(actualClassifier)
 exec (actualClassifier)
-correct, wrong = 0, 0
+correct, wrong = 0.0, 0.0
 for data in verificationdata:
     if (int(data[0]) == int(classify(data))):
         correct += 1
