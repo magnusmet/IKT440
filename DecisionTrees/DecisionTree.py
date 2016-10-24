@@ -42,21 +42,14 @@ def language(lang):
     else:
         return "Foreign"
 
-
-def binary_choice(name):
-    if "Trump" in name:
-        return "0"
-    else:
-        return "1"
-
 training_data = []
 for data in all_data[(len(all_data) / 2):]:
-    training_data.append([binary_choice(data[0]), contains_most_used_words(data[1]),
+    training_data.append([data[0], contains_most_used_words(data[1]),
                           tweet_author(data[2]), language(data[3])])
 
 verification_data = []
 for data in all_data[:(len(all_data) / 2)]:
-    verification_data.append([binary_choice(data[0]), contains_most_used_words(data[1]),
+    verification_data.append([data[0], contains_most_used_words(data[1]),
                               tweet_author(data[2]), language(data[3])])
 
 
@@ -112,6 +105,7 @@ def isEmpty(oneclass):
 
 def mostCommon(oneclass):
     lst = [i[0] for i in oneclass]
+    ret_val = max(set(lst), key=lst.count)
     return max(set(lst), key=lst.count)
 
 
@@ -127,7 +121,7 @@ def buildTree(oneclass, spaces="    ", depth=0):
     if (isPure(oneclass) or isEmpty(oneclass) or depth is 2):
         #print(spaces, "then ", mostCommon(oneclass))
         #print(spaces, "#confidence", confidence(oneclass))
-        actualClassifier += "\n" + spaces + "return " + mostCommon(oneclass)
+        actualClassifier += "\n" + spaces + "return '" + mostCommon(oneclass) + "'"
         return
     highest = getHighestGain(oneclass)
     d = split(oneclass, highest)
@@ -155,10 +149,10 @@ for i in range(n_chunks):
 
 correct, wrong = 0.0, 0.0
 for i in range(len(verification_data)):
-    final_answer = "0"
-    if answers[i].count(1) > len(answers[i])/2:
-        final_answer = "1"
-    if verification_data[i][0] is final_answer:
+    final_answer = "Trump"
+    if answers[i].count("HillaryClinton") > len(answers[i])/2:
+        final_answer = "Hillary"
+    if final_answer in verification_data[i][0]:
         correct += 1
     else:
         wrong += 1
