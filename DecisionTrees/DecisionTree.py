@@ -1,27 +1,42 @@
-import csv, math
+import csv, math, tools, random
 
-data = csv.reader(open("data/titanic.csv", "r"))
-alldata = []
-
-
-def getOldYoung(age):
-    try:
-        if (int(age) < 18):
-            return "Young"
-    except ValueError:
-        pass
-    return "Old"
-
-
+data = csv.reader(open("data/tweets.csv", "r"))
+all_data = []
 for d in data:
-    # print (d)
-    # trainingdata.append([d[1],d[2],d[4],d[5]]) #Survived,class,sex
-    alldata.append([d[1], d[2], d[4], getOldYoung(d[5])])
-    # Survived,class,sex,age
-alldata = alldata[1:]
+    all_data.append([d[1], d[2]])
+all_data = all_data[1:]
+random.shuffle(all_data)
+training_tweets = all_data[(len(all_data) / 2):]
+trump_words, hillary_words = tools.get_top_words(training_tweets)
 
-trainingdata = alldata[int(len(alldata) / 2):]
-verificationdata = alldata[:int(len(alldata) / 2)]
+
+def contains_most_used_words(tweet):
+    global trump_words
+    global hillary_words
+    for word in tweet.split():
+        w = filter(lambda x: x.isalpha() or "#" in x or "@" in x, word).lower()
+        if w in trump_words:
+            return "Contains Trump word"
+        elif w in hillary_words:
+            return "Contains Hillary word"
+
+    return "Contains no Trump or Hillary words"
+
+
+def binary_choice(name):
+    if "Trump" in name:
+        return "0"
+    else:
+        return "1"
+
+training_data = []
+for data in all_data[(len(all_data) / 2):]:
+    training_data.append([binary_choice(data[0]), contains_most_used_words(data[1])])
+
+verification_data = []
+for data in all_data[:(len(all_data) / 2)]:
+    verification_data.append([binary_choice(data[0]), contains_most_used_words(data[1])])
+
 
 
 def split(data, attribute, remove=False):
@@ -102,11 +117,11 @@ def buildTree(oneclass, spaces="    "):
         buildTree(value, spaces + "   ")
 
 
-buildTree(trainingdata)
+buildTree(training_data)
 print(actualClassifier)
 exec (actualClassifier)
 correct, wrong = 0.0, 0.0
-for data in verificationdata:
+for data in verification_data:
     if (int(data[0]) == int(classify(data))):
         correct += 1
     else:
