@@ -4,7 +4,7 @@ import csv, math, tools, random
 data = csv.reader(open("data/tweets.csv", "r"))
 all_data = []
 for d in data:
-    all_data.append([d[1], d[2], d[4], d[10]])
+    all_data.append([d[1], d[2], d[4], d[10], d[24]])
     if "is_retweet" not in d[3]:
         if "True" not in d[3] and "False" not in d[3]:
             print d[3]
@@ -44,11 +44,11 @@ def language(lang):
 
 training_data = []
 for data in all_data[(len(all_data) / 2):]:
-    training_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3])])
+    training_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3]), data[4]])
 
 verification_data = []
 for data in all_data[:(len(all_data) / 2)]:
-    verification_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3])])
+    verification_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3]), data[4]])
 
 
 

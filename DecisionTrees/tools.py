@@ -35,7 +35,7 @@ def get_top_words(tweets):
     for word in trump_words:
         if word[0] not in hillary_dict:
             top_trump.append(word)
-        elif word[1]/2 > hillary_dict[word[0]]:
+        elif word[1]/3 > hillary_dict[word[0]]:
             top_trump.append(word)
     top_trump = dict(top_trump)
 
