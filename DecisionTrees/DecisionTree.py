@@ -44,13 +44,11 @@ def language(lang):
 
 training_data = []
 for data in all_data[(len(all_data) / 2):]:
-    training_data.append([data[0], contains_most_used_words(data[1]),
-                          tweet_author(data[2]), language(data[3])])
+    training_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3])])
 
 verification_data = []
 for data in all_data[:(len(all_data) / 2)]:
-    verification_data.append([data[0], contains_most_used_words(data[1]),
-                              tweet_author(data[2]), language(data[3])])
+    verification_data.append([data[0], contains_most_used_words(data[1]), tweet_author(data[2]), language(data[3])])
 
 
 
@@ -68,8 +66,8 @@ def split(data, attribute, remove=False):
 
 
 def entropy(oneclass):
-    pos = len([i for i in oneclass if i[0] == "0"])
-    neg = len([i for i in oneclass if i[0] == "1"])
+    pos = len([i for i in oneclass if i[0] == "realDonaldTrump"])
+    neg = len([i for i in oneclass if i[0] == "HillaryClinton"])
     total = float(pos + neg)
     if (min((pos, neg)) == 0):
         return 0
@@ -80,14 +78,15 @@ def entropy(oneclass):
 def gain(oneclass, attribute):
     d = [(entropy(i), len(i)) for i in split(oneclass, attribute, False).values()]
     nAll = sum([i[1] for i in d])
-    gain = sum([(i[0] * i[1]) / nAll for i in d])
+    gain = sum([(i[0] * i[1]) / float(nAll) for i in d])
     return gain
 
 
+
 def getHighestGain(oneclass):
-    classes = [i for i in range(1, len(oneclass[0]))]
-    entropies = [gain(oneclass, c) for c in classes]
-    return entropies.index(min(entropies)) + 1
+    classes = [i for i in range(1,len(oneclass[0]))]
+    entropies = [gain(oneclass,c) for c in classes]
+    return entropies.index(min(entropies))+1
 
 
 def isPure(oneclass):
