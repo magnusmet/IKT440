@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Kreft
+*/.idea/workspace.xml
+*/.idea/vcs.xml
