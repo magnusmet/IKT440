@@ -6,7 +6,7 @@ class Production:
     def __init__(self):
         self.price = [15,15,8,14,9,10,7,14,13,9,12,11,10,10,8,5,5,14,9,5,8,9,10,7]
         #self.price = [7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8]
-        self.max_profit = 15*24 #maxprice*24h
+        #self.max_profit = 15*24 #maxprice*24h
         self.efficiency = []
 
     def production(self, t, water_level):
@@ -19,81 +19,94 @@ class Production:
         return profit
 
 
-
-
-
 class WaterLevel:
     def __init__(self):
 
-        self.water_level = 0.0
-        self.outflow = 4.0
-        self.inflow = []
+        self.first_reserve = 0.0
+        self.first_reserve_max = 50.0
+        self.second_reserve = 0.0
+        self.second_reserve_max = 50.0
+        self.first_outflow = 4.0
+        self.second_outflow = 4.0
+        #self.inflow = []
+        self.inflow = [2.7, 4.1, 4.4, 4.2, 2.0, 4.8, 1.9, 2.3, 2.2, 4.4, 1.4, 4.1, 1.6, 4.9, 4.3, 1.5, 3.2, 2.9, 2.6, 4.8, 4.9,
+             4.8, 4.0, 1.0]
+        if not len(self.inflow) == 24: assert(False)
 
 
-        for i in range(0,24):
-            self.inflow.append(random.randrange(10.0,50.0)/10.0)
+        #for i in range(0,24):
+            #self.inflow.append(random.randrange(10.0,50.0)/10.0)
 
-
-    def openOrClose(self, t, open):
-        if open:
-            if self.inflow[t] > self.outflow:
-                difference = self.inflow[t] - self.outflow
-                if self.water_level >= 50.0:
-                    self.water_level = 50.0
-
+    def open_or_close(self, t, first_open, second_open=False):
+        if first_open:
+            self.first_reserve += self.inflow[t]-self.first_outflow
+            # Check for overflow in first reserve
+            if self.first_reserve > self.first_reserve_max:
+                if second_open:
+                    self.second_reserve += (self.first_reserve - self.first_reserve) + self.first_outflow - self.second_outflow
                 else:
-                    self.water_level += difference
-
-            if self.outflow > self.inflow[t]:
-                difference = self.outflow - self.inflow[t]
-                if self.water_level == 0:
-                    return -1
+                    self.second_reserve += (self.first_reserve - self.first_reserve) + self.first_outflow
+                # Check for overflow in second reserve
+                if self.second_reserve > self.second_reserve_max:
+                    self.second_reserve = self.second_reserve_max
+                self.first_reserve = self.first_reserve_max
+            else:
+                if second_open:
+                    self.second_reserve += self.first_outflow - self.second_outflow
                 else:
-                    self.water_level -= difference
-
+                    self.second_reserve += self.first_outflow
+                # Check for overflow in second reserve
+                if self.second_reserve > self.second_reserve_max:
+                    self.second_reserve = self.second_reserve_max
         else:
-            self.water_level += self.inflow[t]
-            if self.water_level >= 50.0:
-                self.water_level = 50.0
+            self.first_reserve += self.inflow[t]
+            # Check for overflow in first reserve
+            if self.first_reserve > self.first_reserve_max:
+                if second_open:
+                    self.second_reserve += (self.first_reserve - self.first_reserve_max) - self.second_outflow
+                else:
+                    self.second_reserve += (self.first_reserve - self.first_reserve_max)
+                # Check for overflow in second reserve
+                if self.second_reserve > self.second_reserve_max:
+                    self.second_reserve = self.second_reserve_max
+                self.first_reserve = self.first_reserve_max
 
-        return self.water_level
+        return self.first_reserve
 
-    def waterLevel(self, production):
+    def get_waterlevel(self):
+        return self.first_reserve, self.second_reserve
 
-        if self.inflow>self.outflow:
-            difference = self.inflow-self.outflow
-            if self.water_level >= 50.0:
-                self.water_level = 50.0
-                return self.water_level
-            else:
-                self.water_level+=difference
-                return self.water_level
-        if self.outflow>self.inflow:
-            difference = self.outflow-self.inflow
-            if self.water_level==0:
-                return -1
-            else:
-                self.water_level -= difference
-                return self.water_level
+    def set_waterlevel(self):
+        self.first_reserve = 0.0
+        self.second_reserve = 0.0
 
-        if production == True:
-            self.water_level -= self.outflow
-            return self.water_level
-        else:
-            return self.water_level
-
-    def getWaterlevel(self):
-        return self.water_level
-
-    def setWaterlevel(self):
-        self.water_level = 0.0
 
 class Judge:
     def __init__(self):
         self.reward_prob = 0.0
+        self.max_profit = 75.0
+        self.nr_of_iteration_since_change = 0
+
+    def set_max_profit(self, max):
+        if max*1.1 < max+15 :
+            self.max_profit = max+15
+        else :
+            self.max_profit = max*1.1
+        self.nr_of_iteration_since_change = 0
+
+    def unchanged_iteration(self):
+        self.nr_of_iteration_since_change += 1
+        return self.nr_of_iteration_since_change
+
+    def reset_unchanged_iteration(self):
+        self.nr_of_iteration_since_change = 0
+
+    def print_(self):
+        print self.max_profit
+        #print self.nr_of_iteration_since_change
 
     def reward_probability(self, profit):
-        self.reward_prob = profit/(100) #profit/maxprofit
+        self.reward_prob = profit/self.max_profit #profit/maxprofit
 
 
     def reward(self):
