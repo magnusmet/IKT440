@@ -9,6 +9,10 @@ class Dam:
     def get_water(self, inflow, open):
         self.water_level += inflow
         if open == 1:
+            if self.water_level - self.outflow < 0:
+                outflow = self.water_level
+                self.water_level = 0.0
+                return outflow
             self.water_level -= self.outflow
             if self.water_level - self.outflow > self.max_capacity:
                 overflow_and_outflow = self.outflow + (self.water_level - self.max_capacity)

@@ -4,7 +4,7 @@ import random
 class Judge:
     def __init__(self):
         self.reward_prob = 0.0
-        self.max_profit = 75.0
+        self.max_profit = 100
         self.nr_of_iteration_since_change = 0
 
     def set_max_profit(self, max):

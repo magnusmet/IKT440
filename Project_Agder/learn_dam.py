@@ -35,7 +35,8 @@ def learn_dam(judge, iterations, learning_runs, time_intervals, nr_of_dams, netw
                 for i in range(len(decisions)):
                     outflow = network.get_dam(i).get_outflow() * decisions[i]
                     water_level = network.get_dam(i).get_water_level()
-                    income += prod.production(t, water_level, outflow)
+                    if outflow>0:
+                        income += prod.production(t, water_level, outflow)
                 network.run_network(t, decisions)
 
             judge.reward_probability(income)
