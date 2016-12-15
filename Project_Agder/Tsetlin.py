@@ -4,36 +4,26 @@ import random
 class Judge:
     def __init__(self):
         self.reward_prob = 0.0
-        self.max_profit = 100
-        self.nr_of_iteration_since_change = 0
+        self.max_profit = 100.0
 
     def set_max_profit(self, max):
-        if max*1.1 < max+15 :
-            self.max_profit = max+15
+        if max*1.2 < max+15 :
+            self.max_profit = max+30
         else :
-            self.max_profit = max*1.1
-        self.nr_of_iteration_since_change = 0
-
-    def iterations_since_change(self):
-        self.nr_of_iteration_since_change += 1
-        return self.nr_of_iteration_since_change
-
-    def reset_iterations_since_change(self):
-        self.nr_of_iteration_since_change = 0
+            self.max_profit = max*1.2
 
     def print_(self):
         print self.max_profit
-        #print self.nr_of_iteration_since_change
 
     def reward_probability(self, profit):
-        self.reward_prob = profit/self.max_profit #profit/maxprofit
-
+        self.reward_prob = profit/self.max_profit
 
     def reward(self):
         if random.random() <= self.reward_prob:
             return True
         else:
             return False
+
 
 class Tsetlin:
     def __init__(self, n):

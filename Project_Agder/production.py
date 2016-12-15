@@ -13,6 +13,9 @@ class Production:
         efficiency = water_level/50.0 #max_wl/wl
         if outflow > water_level:
             outflow = water_level
+        if  water_level > 50.0:
+            print water_level
+            assert False
 
         profit = self.price[t]*efficiency*outflow
         return profit

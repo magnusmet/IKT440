@@ -14,7 +14,7 @@ class Dam:
                 self.water_level = 0.0
                 return outflow
             self.water_level -= self.outflow
-            if self.water_level - self.outflow > self.max_capacity:
+            if self.water_level > self.max_capacity:
                 overflow_and_outflow = self.outflow + (self.water_level - self.max_capacity)
                 self.water_level = self.max_capacity
                 return overflow_and_outflow
@@ -23,6 +23,7 @@ class Dam:
         else:
             if self.water_level > self.max_capacity:
                 overflow = self.water_level - self.max_capacity
+                self.water_level = self.max_capacity
                 return overflow
             else:
                 return 0
@@ -31,6 +32,9 @@ class Dam:
         self.water_level = water_level
 
     def get_water_level(self):
+        if self.water_level < 0 or self.water_level > self.max_capacity:
+            print 'Invalid water level'
+            assert False
         return self.water_level
 
     def set_max_capacity(self, max_capacity):

@@ -14,7 +14,7 @@ inflow = [5,6,4,2,1,2,1,0,0,2,0,3,0,0,0,0,0,0,0,0,0,0,0,0]
 dam_network = DamNetwork(inflow, dams)
 
 iterations = 1000
-learning_runs = 100000
+learning_runs = 10000
 
 highest_profit = learn_dam(judge, iterations, learning_runs, time_intervals, len(dams), dam_network, prod, states)
 
