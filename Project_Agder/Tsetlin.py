@@ -7,7 +7,7 @@ class Judge:
         self.max_profit = 100.0
 
     def set_max_profit(self, max):
-        if max*1.2 < max+15 :
+        if max*1.2 < max+15:
             self.max_profit = max+30
         else :
             self.max_profit = max*1.2
@@ -24,6 +24,13 @@ class Judge:
         else:
             return False
 
+    @staticmethod
+    def individual_reward(reward_prob):
+        if random.random() <= reward_prob:
+            return True
+        else:
+            return False
+
 
 class Tsetlin:
     def __init__(self, n):
@@ -34,7 +41,7 @@ class Tsetlin:
         self.state = random.choice([self.n, self.n + 1])
 
     def reward_or_penalty(self, reward):
-        if reward == True:
+        if reward:
             if self.state <= self.n and self.state > 1:
                 self.state -= 1
             elif self.state > self.n and self.state < 2 * self.n:

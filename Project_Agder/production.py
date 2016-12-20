@@ -7,13 +7,11 @@ class Production:
         else:
             self.price = price
 
-    def production(self, t, water_level, outflow):
-        if water_level == 0:
-            return 0
-        efficiency = water_level/50.0 #max_wl/wl
+    def production(self, t, water_level, capacity, outflow):
+        efficiency = water_level/capacity
         if outflow > water_level:
             outflow = water_level
-        if  water_level > 50.0:
+        if water_level > capacity:
             print water_level
             assert False
 

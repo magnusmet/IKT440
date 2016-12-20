@@ -5,10 +5,11 @@ class Dam:
         self.water_level = water_level
         self.max_capacity = max_capacity
         self.outflow = outflow
+        self.initial_water_level = water_level
 
     def get_water(self, inflow, open):
         self.water_level += inflow
-        if open == 1:
+        if open:
             if self.water_level - self.outflow < 0:
                 outflow = self.water_level
                 self.water_level = 0.0
@@ -28,8 +29,11 @@ class Dam:
             else:
                 return 0
 
-    def set_water_level(self, water_level=0.0):
+    def set_water_level(self, water_level):
         self.water_level = water_level
+
+    def reset_water_level(self):
+        self.water_level = self.initial_water_level
 
     def get_water_level(self):
         if self.water_level < 0 or self.water_level > self.max_capacity:
@@ -39,6 +43,9 @@ class Dam:
 
     def set_max_capacity(self, max_capacity):
         self.max_capacity = max_capacity
+
+    def get_max_capacity(self):
+        return self.max_capacity
 
     def set_outflow(self, outflow):
         self.outflow = outflow
